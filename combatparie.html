@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🥊</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f4f0;
+    --card: #ffffff;
+    --border: rgba(0,0,0,0.12);
+    --border-strong: rgba(0,0,0,0.22);
+    --text: #1a1a18;
+    --muted: #6b6b67;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --green-border: #C0DD97;
+    --red: #A32D2D;
+    --red-light: #FCEBEB;
+    --red-border: #F7C1C1;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --blue-border: #B5D4F4;
+    --amber: #854F0B;
+    --amber-light: #FAEEDA;
+    --amber-border: #FAC775;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --card: #252523;
+      --border: rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.2);
+      --text: #f0efe9;
+      --muted: #9b9b97;
+      --green: #97C459;
+      --green-light: #173404;
+      --green-border: #3B6D11;
+      --red: #d3e24a;
+      --red-light: #788121;
+      --red-border: #d3e24a;
+      --blue: #57be53;
+      --blue-light: #0d610a;
+      --blue-border: #57be53;
+      --amber: #EF9F27;
+      --amber-light: #412402;
+      --amber-border: #854F0B;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+  }
+
+  .container { max-width: 820px; margin: 0 auto; }
+
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  header p { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  .section {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+
+  .fighters-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+  .vs {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+  }
+  .fighter-card {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+  }
+  .fighter-card.red { border-left: 3px solid #d3e24a; }
+  .fighter-card.blue { border-left: 3px solid #57be53; }
+  .fighter-card label { font-size: 11px; color: var(--muted); display: block; margin-bottom: 4px; font-weight: 500; }
+  .fighter-card input[type=text] {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+  }
+  .mise-total { font-size: 24px; font-weight: 700; margin-top: 10px; }
+  .fighter-card.red .mise-total { color: var(--red); }
+  .fighter-card.blue .mise-total { color: var(--blue); }
+  .cote-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+  }
+  .fighter-card.red .cote-badge { background: var(--red-light); color: var(--red); border: 0.5px solid var(--red-border); }
+  .fighter-card.blue .cote-badge { background: var(--blue-light); color: var(--blue); border: 0.5px solid var(--blue-border); }
+
+  .org-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .org-bar label { font-size: 13px; color: var(--muted); }
+  .org-bar input[type=range] { width: 140px; accent-color: var(--green); }
+  .org-val { font-size: 18px; font-weight: 700; color: var(--green); min-width: 45px; }
+  .org-note { font-size: 12px; color: var(--muted); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+  .stat-value { font-size: 20px; font-weight: 700; }
+  .stat-value.green { color: var(--green); }
+
+  .bet-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 560px) {
+    .bet-form { grid-template-columns: 1fr 1fr; }
+  }
+  .form-group label { font-size: 11px; color: var(--muted); font-weight: 500; display: block; margin-bottom: 4px; }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--green); }
+
+  .btn {
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0.5px solid var(--border-strong);
+    background: var(--card);
+    color: var(--text);
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .btn:hover { background: var(--bg); }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--green); color: white; border-color: var(--green); }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-danger {
+    background: var(--red-light);
+    color: var(--red);
+    border: 0.5px solid var(--red-border);
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-danger:hover { opacity: 0.8; }
+
+  .warning {
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber-border);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1rem;
+    font-size: 13px;
+    color: var(--amber);
+    margin-top: 0.75rem;
+    display: none;
+    font-weight: 500;
+  }
+
+  .bets-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .bets-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 6px 8px;
+    border-bottom: 0.5px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bets-table td {
+    padding: 9px 8px;
+    border-bottom: 0.5px solid var(--border);
+    vertical-align: middle;
+  }
+  .bets-table tr:last-child td { border-bottom: none; }
+  .bets-table tr:hover td { background: var(--bg); }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-red { background: var(--red-light); color: var(--red); border: 0.5px solid var(--red-border); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); border: 0.5px solid var(--blue-border); }
+  .badge-win { background: var(--green-light); color: var(--green); border: 0.5px solid var(--green-border); }
+  .badge-lose { background: var(--red-light); color: var(--red); border: 0.5px solid var(--red-border); }
+  .badge-pending { background: var(--bg); color: var(--muted); border: 0.5px solid var(--border); }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 2rem;
+  }
+
+  .result-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .result-bar label { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .result-bar select {
+    padding: 8px 10px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+  }
+
+  .result-box {
+    background: var(--green-light);
+    border: 0.5px solid var(--green-border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+  }
+  .result-box .winner { font-size: 16px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+  .result-box .details { font-size: 13px; color: var(--green); }
+
+  .prog-bar-wrap {
+    margin-top: 10px;
+    height: 8px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+  }
+  .prog-bar-red {
+    height: 100%;
+    background: #d3e24a;
+    float: left;
+    transition: width 0.4s;
+  }
+  .prog-bar-blue {
+    height: 100%;
+    background: #57be53;
+    float: left;
+    transition: width 0.4s;
+  }
+  .prog-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>🥊 Combat de rue</h1>
+    <p>Dev by Zoka - Maloka 13</p>
+  </header>
+
+  <!-- Combattants -->
+  <div class="section">
+    <div class="section-title">⚔️ Duel</div>
+    <div class="fighters-grid">
+      <div class="fighter-card red">
+        <label>Combattant Jaune</label>
+        <input type="text" id="nameA" value="Tyson Fury" oninput="update()" />
+        <div class="mise-total" id="totalA">0 $</div>
+        <span class="cote-badge" id="coteA">Cote : —</span>
+      </div>
+      <div class="vs">VS</div>
+      <div class="fighter-card blue">
+        <label>Combattant Vert</label>
+        <input type="text" id="nameB" value="Anthony Joshua" oninput="update()" />
+        <div class="mise-total" id="totalB">0 $</div>
+        <span class="cote-badge" id="coteB">Cote : —</span>
+      </div>
+    </div>
+    <div class="prog-bar-wrap" id="progBar" style="margin-top:12px;">
+      <div class="prog-bar-red" id="barRed" style="width:50%;"></div>
+      <div class="prog-bar-blue" id="barBlue" style="width:50%;"></div>
+    </div>
+    <div class="prog-labels"><span id="pctRed">—</span><span id="pctBlue">—</span></div>
+  </div>
+
+  <!-- Marge -->
+  <div class="section">
+    <div class="section-title">💰 Marge organisateur</div>
+    <div class="org-bar">
+      <label>Votre commission :</label>
+      <input type="range" id="margin" min="1" max="20" value="5" step="1" oninput="update()" />
+      <span class="org-val" id="marginVal">5%</span>
+      <span class="org-note">Prélevée sur le pot total — les gagnants se partagent le reste</span>
+    </div>
+  </div>
+
+  <!-- Stats + Ajout -->
+  <div class="section">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-label">Total misé</div>
+        <div class="stat-value" id="totalPot">0 $</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Parieurs</div>
+        <div class="stat-value" id="nbBettors">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Votre gain</div>
+        <div class="stat-value green" id="orgGain">0 $</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Pool gagnants</div>
+        <div class="stat-value" id="poolGagnants">0 $</div>
+      </div>
+    </div>
+
+    <div class="section-title">➕ Ajouter un pari</div>
+    <div class="bet-form">
+      <div class="form-group">
+        <label>Nom du parieur</label>
+        <input type="text" id="bettor" placeholder="Nom" />
+      </div>
+      <div class="form-group">
+        <label>Mise ($)</label>
+        <input type="number" id="amount" min="1" value="10" step="1" />
+      </div>
+      <div class="form-group">
+        <label>Parie sur</label>
+        <select id="betOn">
+          <option value="A">🟡 Jaune</option>
+          <option value="B">🟢 Vert</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="opacity:0">.</label>
+        <button class="btn btn-primary" onclick="addBet()">+ Ajouter</button>
+      </div>
+    </div>
+
+    <div class="warning" id="warnMsg"></div>
+
+    <div id="betsArea">
+      <div class="empty">Aucun pari pour l'instant — ajoutez des parieurs ci-dessus.</div>
+    </div>
+  </div>
+
+  <!-- Résolution -->
+  <div class="section">
+    <div class="section-title">🏁 Valider le combat</div>
+    <div class="result-bar">
+      <label>Vainqueur :</label>
+      <select id="winnerSelect">
+        <option value="A" id="winOptA">🟡 Jaune</option>
+        <option value="B" id="winOptB">🟢 Vert</option>
+      </select>
+      <button class="btn btn-primary" onclick="resolve()">🏆 Valider & afficher les gains</button>
+      <button class="btn" onclick="resetAll()">🔄 Nouveau combat</button>
+    </div>
+    <div id="resultArea"></div>
+  </div>
+
+</div>
+
+<script>
+let bets = [];
+let resolved = false;
+
+function names() {
+  return {
+    A: document.getElementById('nameA').value.trim() || 'Rouge',
+    B: document.getElementById('nameB').value.trim() || 'Bleu'
+  };
+}
+
+function getMargin() {
+  return parseInt(document.getElementById('margin').value) / 100;
+}
+
+function update() {
+  const m = parseInt(document.getElementById('margin').value);
+  document.getElementById('marginVal').textContent = m + '%';
+
+  const n = names();
+  document.getElementById('winOptA').textContent = '🟡 ' + n.A;
+  document.getElementById('winOptB').textContent = '🟢 ' + n.B;
+
+  const margin = getMargin();
+  const totalA = bets.filter(b => b.side === 'A').reduce((s, b) => s + b.amount, 0);
+  const totalB = bets.filter(b => b.side === 'B').reduce((s, b) => s + b.amount, 0);
+  const total = totalA + totalB;
+
+  document.getElementById('totalA').textContent = fmt(totalA) + ' $';
+  document.getElementById('totalB').textContent = fmt(totalB) + ' $';
+  document.getElementById('totalPot').textContent = fmt(total) + ' $';
+  document.getElementById('nbBettors').textContent = bets.length;
+
+  const orgCut = Math.round(total * margin);
+  const pool = total - orgCut;
+  document.getElementById('orgGain').textContent = fmt(orgCut) + ' $';
+  document.getElementById('poolGagnants').textContent = fmt(pool) + ' $';
+
+  if (total > 0) {
+    const pA = Math.round(totalA / total * 100);
+    const pB = 100 - pA;
+    document.getElementById('barRed').style.width = pA + '%';
+    document.getElementById('barBlue').style.width = pB + '%';
+    document.getElementById('pctRed').textContent = '🟡 ' + pA + '% des mises';
+    document.getElementById('pctBlue').textContent = '🟢 ' + pB + '% des mises';
+  }
+
+  if (total > 0 && totalA > 0 && totalB > 0) {
+    document.getElementById('coteA').textContent = 'Cote : x' + (pool / totalA).toFixed(2);
+    document.getElementById('coteB').textContent = 'Cote : x' + (pool / totalB).toFixed(2);
+  } else {
+    document.getElementById('coteA').textContent = 'Cote : —';
+    document.getElementById('coteB').textContent = 'Cote : —';
+  }
+
+  renderBets(null);
+}
+
+function fmt(n) {
+  return n.toLocaleString('fr-FR');
+}
+
+function addBet() {
+  if (resolved) { warn('Le combat est résolu. Faites un nouveau combat.'); return; }
+  const bettor = document.getElementById('bettor').value.trim();
+  const amount = parseFloat(document.getElementById('amount').value);
+  const side = document.getElementById('betOn').value;
+  if (!bettor) { warn('Entrez un nom de parieur.'); return; }
+  if (!amount || amount <= 0) { warn('Entrez une mise valide (> 0 $).'); return; }
+  bets.push({ bettor, amount, side, id: Date.now() });
+  document.getElementById('bettor').value = '';
+  document.getElementById('warnMsg').style.display = 'none';
+  update();
+}
+
+function removeBet(id) {
+  bets = bets.filter(b => b.id !== id);
+  update();
+}
+
+function warn(msg) {
+  const el = document.getElementById('warnMsg');
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+
+function renderBets(winner) {
+  const n = names();
+  const margin = getMargin();
+  const totalA = bets.filter(b => b.side === 'A').reduce((s, b) => s + b.amount, 0);
+  const totalB = bets.filter(b => b.side === 'B').reduce((s, b) => s + b.amount, 0);
+  const total = totalA + totalB;
+  const pool = total - Math.round(total * margin);
+  const area = document.getElementById('betsArea');
+
+  if (bets.length === 0) {
+    area.innerHTML = '<div class="empty">Aucun pari pour l\'instant — ajoutez des parieurs ci-dessus.</div>';
+    return;
+  }
+
+  const rows = bets.map(b => {
+    const sideTotal = b.side === 'A' ? totalA : totalB;
+    const cote = sideTotal > 0 ? pool / sideTotal : 0;
+    const gain = (b.amount * cote).toFixed(2);
+    const profit = (b.amount * cote - b.amount).toFixed(2);
+
+    let status = '';
+    if (winner) {
+      if (b.side === winner) {
+        status = `<span class="badge badge-win">✓ +${parseFloat(profit).toLocaleString('fr-FR')} $ (total ${parseFloat(gain).toLocaleString('fr-FR')} $)</span>`;
+      } else {
+        status = `<span class="badge badge-lose">✗ perd ${fmt(b.amount)} $</span>`;
+      }
+    } else {
+      status = `<span class="badge badge-pending">Gain potentiel : ${parseFloat(gain).toLocaleString('fr-FR')} $</span>`;
+    }
+
+    const btn = winner ? '' : `<button class="btn-danger" onclick="removeBet(${b.id})">✕</button>`;
+
+    return `<tr>
+      <td><strong>${b.bettor}</strong></td>
+      <td><span class="badge ${b.side==='A'?'badge-red':'badge-blue'}">${b.side==='A'?'🟡 '+n.A:'🟢 '+n.B}</span></td>
+      <td>${fmt(b.amount)} $</td>
+      <td>${cote > 0 ? 'x' + cote.toFixed(2) : '—'}</td>
+      <td>${status}</td>
+      <td>${btn}</td>
+    </tr>`;
+  }).join('');
+
+  area.innerHTML = `<table class="bets-table">
+    <thead>
+      <tr>
+        <th>Parieur</th><th>Parie sur</th><th>Mise</th><th>Cote</th><th>Résultat</th><th></th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function resolve() {
+  if (bets.length === 0) { warn('Aucun pari enregistré.'); return; }
+  const winner = document.getElementById('winnerSelect').value;
+  const n = names();
+  const margin = getMargin();
+  const total = bets.reduce((s, b) => s + b.amount, 0);
+  const orgCut = Math.round(total * margin);
+  const pool = total - orgCut;
+
+  resolved = true;
+  renderBets(winner);
+
+  const wname = winner === 'A' ? ('🟡 ' + n.A) : ('🟢 ' + n.B);
+  document.getElementById('resultArea').innerHTML = `
+    <div class="result-box">
+      <div class="winner">🏆 Vainqueur : ${wname}</div>
+      <div class="details">
+        Pot total : <strong>${fmt(total)} $</strong> —
+        Commission organisateur : <strong>${fmt(orgCut)} $</strong> —
+        Pool reversé aux gagnants : <strong>${fmt(pool)} $</strong>
+      </div>
+    </div>`;
+  document.getElementById('warnMsg').style.display = 'none';
+}
+
+function resetAll() {
+  bets = [];
+  resolved = false;
+  document.getElementById('resultArea').innerHTML = '';
+  document.getElementById('warnMsg').style.display = 'none';
+  update();
+}
+
+update();
+</script>
+</body>
+</html>

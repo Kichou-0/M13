@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>⌛</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:       #009C3B;
+  --green-mid:   #00C44A;
+  --green-light: rgba(0,156,59,0.15);
+  --green-border:rgba(0,156,59,0.35);
+  --yellow:      #FFDF00;
+  --yellow-glow: rgba(255,223,0,0.18);
+  --yellow-dim:  rgba(255,223,0,0.08);
+  --bg:          #0d0d0d;
+  --card:        #161616;
+  --card2:       #1c1c1c;
+  --text:        #F2F2F0;
+  --muted:       #666;
+  --border:      rgba(255,255,255,0.08);
+  --radius:      12px;
+  --radius-sm:   8px;
+  --shadow:      0 4px 28px rgba(0,0,0,0.6);
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(0,156,59,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 92% 85%, rgba(255,223,0,0.05) 0%, transparent 55%);
+  pointer-events: none; z-index: 0;
+}
+
+.container { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem; position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+header { text-align: center; margin-bottom: 2.5rem; }
+
+.top-stripe {
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--green));
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 9vw, 76px);
+  letter-spacing: 5px;
+  color: var(--yellow);
+  text-shadow: 0 0 50px rgba(255,223,0,0.25), 2px 2px 0 rgba(0,0,0,0.8);
+  line-height: 1;
+}
+header .sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--green-mid);
+  letter-spacing: 4px; text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ── SECTION ── */
+.section {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.section::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--green));
+}
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--green-mid);
+  text-transform: uppercase; letter-spacing: 3px;
+  margin-bottom: 1.25rem;
+}
+
+/* ── FORM ── */
+.add-form { display: flex; gap: 10px; }
+.add-form input {
+  flex: 1; padding: 10px 14px;
+  background: var(--card2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text); font-family: 'Barlow', sans-serif; font-size: 15px;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.add-form input::placeholder { color: var(--muted); }
+.add-form input:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(255,223,0,0.08);
+}
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; border: none;
+  transition: all 0.15s; white-space: nowrap;
+}
+.btn:active { transform: scale(0.96); }
+
+.btn-yellow { background: var(--yellow); color: #111; }
+.btn-yellow:hover { background: #ffe833; box-shadow: 0 0 20px rgba(255,223,0,0.3); }
+
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: var(--green-mid); box-shadow: 0 0 16px rgba(0,196,74,0.3); }
+
+.btn-stop { background: #1f0a0a; color: #f08080; border: 0.5px solid rgba(200,80,80,0.3); }
+.btn-stop:hover { background: #2d0e0e; }
+
+.btn-ghost {
+  background: transparent; color: var(--muted);
+  border: 0.5px solid var(--border);
+  font-size: 12px; padding: 6px 12px;
+}
+.btn-ghost:hover { color: var(--text); border-color: #444; }
+
+.btn-del {
+  background: transparent; color: #6b2020;
+  border: 0.5px solid rgba(139,32,32,0.25);
+  font-size: 12px; padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer; font-weight: 700;
+  transition: all 0.15s;
+}
+.btn-del:hover { color: #f08080; border-color: rgba(200,80,80,0.4); }
+
+/* ── GLOBAL BAR ── */
+.global-bar { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
+
+/* ── PARTICIPANT ROW ── */
+.participants-grid { display: flex; flex-direction: column; gap: 8px; }
+
+.participant {
+  background: var(--card2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 32px 1fr auto auto;
+  gap: 12px; align-items: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.participant.running {
+  border-color: rgba(255,223,0,0.5);
+  box-shadow: 0 0 22px rgba(255,223,0,0.08);
+  animation: pulse-y 1.6s ease-in-out infinite;
+}
+.participant.done {
+  border-color: var(--green-border);
+  box-shadow: 0 0 14px rgba(0,156,59,0.1);
+}
+@keyframes pulse-y {
+  0%,100% { box-shadow: 0 0 16px rgba(255,223,0,0.06); }
+  50%      { box-shadow: 0 0 28px rgba(255,223,0,0.15); }
+}
+
+.p-rank {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; color: var(--muted);
+  text-align: center; line-height: 1;
+}
+.p-rank.gold   { color: var(--yellow); text-shadow: 0 0 12px rgba(255,223,0,0.5); }
+.p-rank.silver { color: #a0a8aa; }
+.p-rank.bronze { color: #a07840; }
+
+.p-info .p-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px; font-weight: 700; color: var(--text);
+}
+.p-info .p-status {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); margin-top: 1px;
+}
+.p-info .p-status.running { color: var(--yellow); }
+.p-info .p-status.done    { color: var(--green-mid); }
+
+.p-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; letter-spacing: 2px;
+  color: var(--text); min-width: 115px; text-align: right;
+}
+.p-time.running { color: var(--yellow); }
+.p-time.done    { color: var(--green-mid); }
+
+.p-actions { display: flex; gap: 6px; align-items: center; }
+
+.empty {
+  text-align: center; color: var(--muted);
+  font-size: 14px; padding: 2.5rem;
+}
+
+/* ── WARN ── */
+.warn {
+  background: rgba(139,32,32,0.15);
+  border: 0.5px solid rgba(200,80,80,0.25);
+  border-radius: 6px; padding: 8px 14px;
+  font-size: 13px; color: #f09090;
+  margin-top: 8px; display: none;
+}
+
+/* ── PODIUM ── */
+.podium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-bottom: 1.25rem;
+}
+@media (max-width: 520px) { .podium { grid-template-columns: 1fr; } }
+
+.podium-card {
+  background: var(--card2);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1rem; text-align: center;
+}
+.podium-card.p1 {
+  border-color: rgba(255,223,0,0.4);
+  background: linear-gradient(150deg, rgba(255,223,0,0.06) 0%, var(--card2) 60%);
+}
+.podium-card.p2 { border-color: rgba(160,168,170,0.25); }
+.podium-card.p3 { border-color: rgba(160,120,64,0.25); }
+
+.podium-medal { font-size: 26px; display: block; margin-bottom: 4px; }
+.podium-pos {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); letter-spacing: 2px; margin-bottom: 6px;
+}
+.podium-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 19px; font-weight: 700; color: var(--text);
+}
+.podium-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 2px; margin-top: 4px;
+}
+.p1 .podium-time { color: var(--yellow); }
+.p2 .podium-time { color: #a0a8aa; }
+.p3 .podium-time { color: #a07840; }
+
+/* ── LEADERBOARD ── */
+.leaderboard-list { display: flex; flex-direction: column; gap: 6px; }
+
+.lb-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto 70px;
+  gap: 10px; align-items: center;
+  padding: 8px 12px;
+  background: var(--card2);
+  border-radius: 6px;
+  border: 0.5px solid var(--border);
+}
+.lb-pos {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px; color: var(--muted); text-align: center;
+}
+.lb-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px; font-weight: 600; color: var(--text);
+}
+.lb-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px; letter-spacing: 1px; color: var(--green-mid);
+}
+.lb-diff { font-size: 12px; color: var(--muted); font-weight: 600; text-align: right; }
+.lb-diff.lead { color: var(--yellow); font-weight: 700; }
+
+.no-results {
+  text-align: center; color: var(--muted);
+  font-size: 14px; padding: 1.5rem;
+}
+
+.live-tag {
+  font-size: 10px; font-weight: 700;
+  color: var(--yellow); letter-spacing: 1px;
+  vertical-align: middle; margin-left: 5px;
+}
+
+/* ── BOTTOM ── */
+.bottom-stripe {
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--green));
+  border-radius: 2px; margin-top: 2rem; opacity: 0.4;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <br>
+    <h1>Course M13</h1>
+    <div class="sub">Dev by Zoka - Maloka 13</div>
+  </header>
+
+  <!-- Ajouter participant -->
+  <div class="section">
+    <div class="section-title">+ Ajouter un participant</div>
+    <div class="add-form">
+      <input type="text" id="newName" placeholder="Nom du participant..." maxlength="30" />
+      <button class="btn btn-yellow" onclick="addParticipant()">Ajouter</button>
+    </div>
+    <div class="warn" id="warnMsg"></div>
+  </div>
+
+  <!-- Chronomètres -->
+  <div class="section">
+    <div class="section-title">⏱ Participants</div>
+    <div class="global-bar">
+      <button class="btn btn-ghost" onclick="resetAll()">↺ Tout réinitialiser</button>
+    </div>
+    <div class="participants-grid" id="participantsList">
+      <div class="empty">Aucun participant — ajoutez des noms ci-dessus.</div>
+    </div>
+  </div>
+
+  <!-- Classement -->
+  <div class="section">
+    <div class="section-title">🏆 Classement</div>
+    <div id="podiumArea"></div>
+    <div class="leaderboard-list" id="leaderboard">
+      <div class="no-results">Aucun temps enregistré pour l'instant.</div>
+    </div>
+  </div>
+
+  
+</div>
+
+<script>
+// IDs are integers to avoid floating-point issues in onclick strings
+let nextId = 1;
+let participants = [];
+let rafId = null;
+
+function addParticipant() {
+  const input = document.getElementById('newName');
+  const name = input.value.trim();
+  if (!name) { showWarn('Entrez un nom.'); return; }
+  if (participants.find(p => p.name.toLowerCase() === name.toLowerCase())) {
+    showWarn('Ce nom existe déjà.'); return;
+  }
+  participants.push({ id: nextId++, name, state: 'idle', startTime: null, elapsed: 0 });
+  input.value = '';
+  document.getElementById('warnMsg').style.display = 'none';
+  renderParticipants();
+  updateLeaderboard();
+}
+
+function showWarn(msg) {
+  const el = document.getElementById('warnMsg');
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+}
+
+function startStop(id) {
+  const p = participants.find(x => x.id === id);
+  if (!p) return;
+  if (p.state === 'idle') {
+    p.state = 'running';
+    p.startTime = performance.now() - p.elapsed;
+    startLoop();
+    renderParticipants();
+  } else if (p.state === 'running') {
+    p.elapsed = performance.now() - p.startTime;
+    p.state = 'done';
+    checkLoop();
+    renderParticipants();
+    updateLeaderboard();
+  }
+}
+
+function resetOne(id) {
+  const p = participants.find(x => x.id === id);
+  if (!p) return;
+  p.state = 'idle'; p.startTime = null; p.elapsed = 0;
+  checkLoop();
+  renderParticipants();
+  updateLeaderboard();
+}
+
+function removeParticipant(id) {
+  participants = participants.filter(x => x.id !== id);
+  checkLoop();
+  renderParticipants();
+  updateLeaderboard();
+}
+
+function resetAll() {
+  participants.forEach(p => { p.state = 'idle'; p.startTime = null; p.elapsed = 0; });
+  checkLoop();
+  renderParticipants();
+  updateLeaderboard();
+}
+
+/* ── RAF loop — only updates time displays & leaderboard ── */
+function startLoop() {
+  if (rafId) return;
+  function tick() {
+    const running = participants.filter(p => p.state === 'running');
+    if (running.length === 0) { rafId = null; return; }
+    running.forEach(p => {
+      const el = document.getElementById('t' + p.id);
+      if (el) el.textContent = fmt(performance.now() - p.startTime);
+    });
+    updateLeaderboard();
+    rafId = requestAnimationFrame(tick);
+  }
+  rafId = requestAnimationFrame(tick);
+}
+
+function checkLoop() {
+  if (rafId && !participants.some(p => p.state === 'running')) {
+    cancelAnimationFrame(rafId); rafId = null;
+  }
+}
+
+/* ── Formatting ── */
+function fmt(ms) {
+  const t = Math.floor(ms);
+  const m  = Math.floor(t / 60000);
+  const s  = Math.floor((t % 60000) / 1000);
+  const cs = Math.floor((t % 1000) / 10);
+  return pad(m) + ':' + pad(s) + '.' + pad(cs);
+}
+function pad(n) { return String(n).padStart(2, '0'); }
+
+/* ── Escape ── */
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Finished rank for a given id ── */
+function finishedRank(id) {
+  const list = participants.filter(p => p.state === 'done').sort((a,b) => a.elapsed - b.elapsed);
+  const idx = list.findIndex(p => p.id === id);
+  return idx >= 0 ? idx + 1 : 0;
+}
+
+/* ── Render participant cards ── */
+function renderParticipants() {
+  const el = document.getElementById('participantsList');
+  if (participants.length === 0) {
+    el.innerHTML = '<div class="empty">Aucun participant — ajoutez des noms ci-dessus.</div>';
+    return;
+  }
+
+  el.innerHTML = participants.map((p, i) => {
+    const timeStr = p.state === 'idle' ? '00:00.00' : fmt(p.elapsed);
+
+    let statusLabel = 'En attente';
+    let statusClass = '';
+    if (p.state === 'running') { statusLabel = '⚡ En course'; statusClass = 'running'; }
+    if (p.state === 'done')    { statusLabel = '✓ Terminé';   statusClass = 'done'; }
+
+    let actionBtn = '';
+    if (p.state === 'idle') {
+      actionBtn = `<button class="btn btn-green" style="font-size:13px;padding:8px 14px;" onclick="startStop(${p.id})">▶ Départ</button>`;
+    } else if (p.state === 'running') {
+      actionBtn = `<button class="btn btn-stop"  style="font-size:13px;padding:8px 14px;" onclick="startStop(${p.id})">⏹ Stop</button>`;
+    } else {
+      actionBtn = `<button class="btn btn-ghost" style="padding:8px 12px;"               onclick="resetOne(${p.id})">↺</button>`;
+    }
+
+    const rank = finishedRank(p.id);
+    const displayRank = rank > 0 ? rank : i + 1;
+    const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+
+    return `<div class="participant ${statusClass}" id="row${p.id}">
+      <div class="p-rank ${rankClass}" id="rk${p.id}">${displayRank}</div>
+      <div class="p-info">
+        <div class="p-name">${esc(p.name)}</div>
+        <div class="p-status ${statusClass}">${statusLabel}</div>
+      </div>
+      <div class="p-time ${statusClass}" id="t${p.id}">${timeStr}</div>
+      <div class="p-actions">
+        ${actionBtn}
+        <button class="btn-del" onclick="removeParticipant(${p.id})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Leaderboard (called every RAF frame + after state changes) ── */
+function updateLeaderboard() {
+  const done    = participants.filter(p => p.state === 'done').sort((a,b) => a.elapsed - b.elapsed);
+  const running = participants.filter(p => p.state === 'running').map(p => ({
+    ...p, elapsed: performance.now() - p.startTime, live: true
+  })).sort((a,b) => a.elapsed - b.elapsed);
+
+  const podiumEl = document.getElementById('podiumArea');
+  const lbEl     = document.getElementById('leaderboard');
+
+  if (done.length === 0 && running.length === 0) {
+    podiumEl.innerHTML = '';
+    lbEl.innerHTML = '<div class="no-results">Aucun temps enregistré pour l\'instant.</div>';
+    return;
+  }
+
+  /* Podium — finished only */
+  if (done.length >= 1) {
+    const medals  = ['🥇','🥈','🥉'];
+    const cls     = ['p1','p2','p3'];
+    const labels  = ['1ER','2ÈME','3ÈME'];
+    const top3    = done.slice(0, 3);
+    while (top3.length < 3) top3.push(null);
+    podiumEl.innerHTML = `<div class="podium">${top3.map((p,i) => p
+      ? `<div class="podium-card ${cls[i]}">
+           <span class="podium-medal">${medals[i]}</span>
+           <div class="podium-pos">${labels[i]}</div>
+           <div class="podium-name">${esc(p.name)}</div>
+           <div class="podium-time">${fmt(p.elapsed)}</div>
+         </div>`
+      : `<div class="podium-card ${cls[i]}">
+           <span class="podium-medal" style="opacity:.15">${medals[i]}</span>
+           <div class="podium-pos">${labels[i]}</div>
+           <div class="podium-name" style="color:var(--muted)">—</div>
+         </div>`
+    ).join('')}</div>`;
+  } else {
+    podiumEl.innerHTML = '';
+  }
+
+  /* Full sorted list */
+  const all = [
+    ...done.map(p => ({ ...p, live: false })),
+    ...running
+  ].sort((a,b) => a.elapsed - b.elapsed);
+
+  const best = all[0].elapsed;
+  lbEl.innerHTML = all.map((p, i) => {
+    const diff    = p.elapsed - best;
+    const diffHtml = i === 0
+      ? `<span class="lb-diff lead">LEADER</span>`
+      : `<span class="lb-diff">+${fmt(diff)}</span>`;
+    const liveHtml = p.live ? '<span class="live-tag">LIVE</span>' : '';
+    return `<div class="lb-row">
+      <div class="lb-pos">${i+1}</div>
+      <div class="lb-name">${esc(p.name)}${liveHtml}</div>
+      <div class="lb-time">${fmt(p.elapsed)}</div>
+      ${diffHtml}
+    </div>`;
+  }).join('');
+
+  /* Update rank badges in participant cards */
+  done.forEach((p, i) => {
+    const rkEl = document.getElementById('rk' + p.id);
+    if (rkEl) {
+      rkEl.textContent  = i + 1;
+      rkEl.className    = 'p-rank ' + (i===0?'gold':i===1?'silver':i===2?'bronze':'');
+    }
+  });
+}
+
+document.getElementById('newName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addParticipant();
+});
+</script>
+</body>
+</html>

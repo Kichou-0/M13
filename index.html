@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maloka 13</title>
+<link rel="icon" type="image/png" href="m13.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:        #009C3B;
+  --green-mid:    #00C44A;
+  --green-border: rgba(0,156,59,0.35);
+  --yellow:       #FFDF00;
+  --bg:           #0d0d0d;
+  --card:         #161616;
+  --card2:        #1c1c1c;
+  --text:         #F2F2F0;
+  --muted:        #555;
+  --border:       rgba(255,255,255,0.07);
+  --radius:       14px;
+  --radius-sm:    8px;
+  --shadow:       0 8px 40px rgba(0,0,0,0.7);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── Background glow ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 0%,   rgba(0,156,59,0.1)  0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 85% 90%,  rgba(255,223,0,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 25% at 10% 80%,  rgba(0,196,74,0.04)  0%, transparent 50%);
+  pointer-events: none;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  position: relative; z-index: 1;
+}
+
+/* ── TOP STRIPE ── */
+.top-stripe {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--green));
+  z-index: 100;
+}
+
+/* ── LOGO / HEADER ── */
+.logo-wrap {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green) 0%, #005F24 100%);
+  border: 2px solid rgba(255,223,0,0.3);
+  box-shadow: 0 0 0 6px rgba(0,156,59,0.08), 0 0 50px rgba(0,156,59,0.2);
+  margin: 0 auto 1.5rem;
+  font-size: 38px;
+  position: relative;
+}
+.logo-badge::after {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,223,0,0.12);
+}
+
+.logo-wrap h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 12vw, 96px);
+  letter-spacing: 8px;
+  line-height: 0.9;
+  color: var(--yellow);
+  text-shadow:
+    0 0 60px rgba(255,223,0,0.2),
+    3px 3px 0 rgba(0,0,0,0.9);
+}
+
+.logo-wrap .tagline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--green-mid);
+  margin-top: 10px;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+  margin: 0 auto 3rem;
+  border-radius: 1px;
+}
+
+/* ── CARDS GRID ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 680px;
+}
+@media (max-width: 520px) {
+  .cards { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  position: relative; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  display: block;
+}
+
+/* top accent line */
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--yellow));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.card:hover::before { opacity: 1; }
+
+/* glow blob */
+.card::after {
+  content: '';
+  position: absolute;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  top: -60px; right: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.card.boxing::after  { background: radial-gradient(circle, rgba(255,223,0,0.08) 0%, transparent 70%); }
+.card.chrono::after  { background: radial-gradient(circle, rgba(0,196,74,0.08)  0%, transparent 70%); }
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  border-color: rgba(255,255,255,0.14);
+}
+.card:hover::after { opacity: 1; }
+.card:active { transform: translateY(-1px); }
+
+.card-icon {
+  font-size: 42px;
+  display: block;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  letter-spacing: 2px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.card.boxing .card-title { color: var(--yellow); }
+.card.chrono .card-title { color: var(--green-mid); }
+
+.card-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  transition: all 0.15s;
+}
+.card.boxing .card-btn {
+  background: var(--yellow); color: #111;
+}
+.card.boxing:hover .card-btn {
+  background: #ffe833;
+  box-shadow: 0 0 20px rgba(255,223,0,0.3);
+}
+.card.chrono .card-btn {
+  background: var(--green); color: #fff;
+}
+.card.chrono:hover .card-btn {
+  background: var(--green-mid);
+  box-shadow: 0 0 20px rgba(0,196,74,0.3);
+}
+
+.card-btn svg {
+  width: 14px; height: 14px;
+  fill: currentColor;
+  transition: transform 0.15s;
+}
+.card:hover .card-btn svg { transform: translateX(3px); }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 3.5rem;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.bottom-stripe {
+  width: 120px; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--green));
+  border-radius: 1px;
+  margin: 1.25rem auto 0;
+  opacity: 0.3;
+}
+
+h2{
+  size: 5px;
+}
+</style>
+</head>
+<body>
+
+
+
+<div class="page">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <div class="logo-badge">📦</div>
+    <h1>Maloka 13</h1>
+    <div class="tagline">Gestion D'événement</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Cards -->
+  <div class="cards">
+
+    <a href="paris_boxe.html" class="card boxing">
+      <span class="card-icon">🥊</span>
+      <div class="card-title">Combat de rue</div>
+      <div class="card-desc">Gérez les paris d'un combat de rue. Cotes dynamiques, marge organisateur et résolution automatique des gains.</div>
+      <div class="card-btn">
+        Ouvrir
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
+
+    <a href="chrono_course.html" class="card chrono">
+      <span class="card-icon">⌛</span>
+      <div class="card-title">Course Chrono</div>
+      <div class="card-desc">Chronomètre individuel par participant avec classement en temps réel, podium et écarts au leader.</div>
+      <div class="card-btn">
+        Ouvrir
+        <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <footer>
+    © Dev by Zoka - Maloka 13 — Tous droits réservés
+    <div class="bottom-stripe"></div>
+  </footer>
+
+</div>
+
+</body>
+</html>

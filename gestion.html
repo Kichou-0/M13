@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>📦</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#009C3B;--green-mid:#00C44A;--green-border:rgba(0,156,59,.35);--green-light:rgba(0,156,59,.12);
+  --yellow:#FFDF00;--yellow-dim:rgba(255,223,0,.08);
+  --bg:#0d0d0d;--card:#161616;--card2:#1c1c1c;
+  --text:#F2F2F0;--muted:#555;--border:rgba(255,255,255,.07);--border-s:rgba(255,255,255,.13);
+  --rouge:#E24B4A;--rouge-bg:rgba(226,75,74,.12);--rouge-border:rgba(226,75,74,.35);
+  --radius:12px;--radius-sm:8px;--shadow:0 4px 28px rgba(0,0,0,.6);
+}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 65% 45% at 50% -5%,rgba(0,156,59,.1) 0%,transparent 65%),
+             radial-gradient(ellipse 35% 25% at 88% 88%,rgba(255,223,0,.05) 0%,transparent 55%);
+  pointer-events:none}
+.top-stripe{position:fixed;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--green),var(--yellow),var(--green));z-index:100}
+
+/* ── LAYOUT ── */
+.wrap{max-width:960px;margin:0 auto;padding:2rem 1.25rem;position:relative;z-index:1}
+
+header{text-align:center;margin-bottom:2rem}
+header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,68px);
+  letter-spacing:5px;color:var(--yellow);
+  text-shadow:0 0 50px rgba(255,223,0,.2),2px 2px 0 rgba(0,0,0,.9);line-height:1}
+header p{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  color:var(--green-mid);letter-spacing:4px;text-transform:uppercase;margin-top:6px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;padding:8px 18px;
+  border-radius:var(--radius-sm);border:0.5px solid var(--border-s);
+  background:var(--card2);color:var(--muted);cursor:pointer;transition:all .15s}
+.tab:hover{color:var(--text);border-color:var(--border-s)}
+.tab.active{background:var(--green);color:#fff;border-color:var(--green);
+  box-shadow:0 0 14px rgba(0,196,74,.25)}
+
+/* ── SECTION ── */
+.section{background:var(--card);border:0.5px solid var(--border);border-radius:var(--radius);
+  padding:1.5rem;margin-bottom:1rem;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--green),var(--yellow),var(--green))}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  color:var(--green-mid);text-transform:uppercase;letter-spacing:3px;margin-bottom:1.25rem}
+
+/* ── DASHBOARD ── */
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:600px){.dash-grid{grid-template-columns:repeat(2,1fr)}}
+.dash-card{background:var(--card2);border-radius:var(--radius-sm);padding:.9rem 1rem;
+  border:0.5px solid var(--border)}
+.dash-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.dash-val{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--text)}
+.dash-val.green{color:var(--green-mid)}
+.dash-val.yellow{color:var(--yellow)}
+.dash-val.red{color:var(--rouge)}
+
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;
+  padding:7px 10px;border-bottom:0.5px solid var(--border)}
+.tbl td{padding:9px 10px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--card2)}
+.tbl tfoot td{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  color:var(--yellow);letter-spacing:1px;padding-top:12px;border-top:0.5px solid var(--border-s)}
+
+/* ── INPUTS ── */
+input[type=number],input[type=text]{
+  background:var(--card2);border:0.5px solid var(--border-s);border-radius:6px;
+  color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;
+  padding:6px 10px;outline:none;width:90px;transition:border-color .15s}
+input[type=number]:focus,input[type=text]:focus{border-color:var(--yellow)}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer}
+
+/* ── BUTTONS ── */
+.btn{padding:9px 18px;border-radius:var(--radius-sm);
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s}
+.btn:active{transform:scale(.97)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-mid);box-shadow:0 0 14px rgba(0,196,74,.3)}
+.btn-yellow{background:var(--yellow);color:#111}
+.btn-yellow:hover{background:#ffe833;box-shadow:0 0 14px rgba(255,223,0,.3)}
+.btn-danger{background:var(--rouge-bg);color:var(--rouge);
+  border:0.5px solid var(--rouge-border);font-size:12px;padding:5px 10px;border-radius:6px;cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px}
+.btn-danger:hover{background:rgba(226,75,74,.22)}
+.btn-ghost{background:transparent;color:var(--muted);border:0.5px solid var(--border);
+  font-size:12px;padding:6px 12px}
+.btn-ghost:hover{color:var(--text);border-color:#444}
+
+/* ── ADD ROW FORM ── */
+.add-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:1rem;
+  padding-top:1rem;border-top:0.5px solid var(--border)}
+.add-row input{width:140px}
+.add-row input.wide{width:200px}
+
+/* ── PLANTATION ── */
+.plant-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+@media(max-width:600px){.plant-grid{grid-template-columns:repeat(2,1fr)}}
+.plant-card{background:var(--card2);border-radius:var(--radius-sm);padding:.9rem 1rem;
+  border:0.5px solid var(--border)}
+.plant-card .pl-name{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.plant-card .pl-row{display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;margin-bottom:5px}
+.plant-card .pl-row label{color:var(--muted);font-size:11px;font-weight:600}
+.plant-card .pl-row input{width:70px}
+
+.plant-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+@media(max-width:500px){.plant-summary{grid-template-columns:1fr}}
+.ps-item{background:var(--card2);border-radius:var(--radius-sm);padding:.75rem 1rem;
+  border:0.5px solid var(--border)}
+.ps-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.ps-val{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:var(--yellow)}
+
+.check-row{display:flex;gap:2rem;align-items:center;flex-wrap:wrap;
+  padding:1rem;background:var(--card2);border-radius:var(--radius-sm);
+  border:0.5px solid var(--border)}
+.check-row label{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:1px;color:var(--text);display:flex;align-items:center;gap:8px;cursor:pointer}
+
+/* ── SAVE BAR ── */
+.save-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(13,13,13,.95);border-top:0.5px solid var(--border-s);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.5rem;gap:12px}
+.save-status{font-family:'Barlow Condensed',sans-serif;font-size:13px;
+  font-weight:700;letter-spacing:1px;color:var(--muted)}
+.save-status.dirty{color:var(--yellow)}
+.save-status.saved{color:var(--green-mid)}
+
+/* ── NOTICE ── */
+.notice{background:rgba(200,140,0,.1);border:0.5px solid rgba(200,140,0,.3);
+  border-radius:var(--radius-sm);padding:.75rem 1rem;
+  font-size:12px;color:#C8A000;margin-bottom:1rem;font-weight:600;
+  font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px}
+
+.page{display:none}.page.active{display:block}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:2rem}
+
+.bottom-stripe{height:3px;background:linear-gradient(90deg,var(--green),var(--yellow),var(--green));
+  border-radius:2px;margin-top:2rem;opacity:.35}
+.pb{padding-bottom:80px}
+</style>
+</head>
+<body>
+<div class="top-stripe"></div>
+<div class="wrap pb">
+
+  <header>
+    <h1>Maloka 13</h1>
+    <p>Gestion D'événement</p>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showPage('dashboard')">📊 Dashboard</button>
+    <button class="tab" onclick="showPage('armes')">⚔️ Armes</button>
+    <button class="tab" onclick="showPage('materiel')">🧰 Matériel</button>
+    <button class="tab" onclick="showPage('objets')">📦 Objets</button>
+    <button class="tab" onclick="showPage('plantation')">🌱 Plantation</button>
+    <button class="tab" onclick="showPage('prix')">💰 Prix</button>
+  </div>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="page-dashboard" class="page active">
+    <div class="section">
+      <div class="section-title">📊 Résumé général</div>
+      <div class="dash-grid" id="dash-grid"></div>
+    </div>
+  </div>
+
+  <!-- ══ ARMES ══ -->
+  <div id="page-armes" class="page">
+    <div class="section">
+      <div class="section-title">⚔️ Inventaire des armes</div>
+      <table class="tbl" id="armes-table">
+        <thead><tr><th>Arme</th><th>Quantité</th><th>Valeur unitaire ($)</th><th>Valeur totale</th><th></th></tr></thead>
+        <tbody id="armes-body"></tbody>
+        <tfoot><tr><td colspan="2">Nombre d'armes :</td><td id="armes-nb">0</td><td id="armes-valeur">$0</td><td></td></tr></tfoot>
+      </table>
+      <div class="add-row">
+        <input type="text" id="arme-nom" class="wide" placeholder="Nom de l'arme" />
+        <input type="number" id="arme-qte" placeholder="Qté" min="0" value="1" />
+        <input type="number" id="arme-val" placeholder="Valeur $" min="0" value="0" />
+        <button class="btn btn-green" onclick="addArme()">+ Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MATÉRIEL ══ -->
+  <div id="page-materiel" class="page">
+    <div class="section">
+      <div class="section-title">🧰 Stock matériel</div>
+      <table class="tbl">
+        <thead><tr><th>Matérielle</th><th>Quantité</th></tr></thead>
+        <tbody id="materiel-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ OBJETS ══ -->
+  <div id="page-objets" class="page">
+    <div class="section">
+      <div class="section-title">📦 Inventaire objets</div>
+      <table class="tbl">
+        <thead><tr><th>Objet</th><th>Quantité</th><th>Valeur unitaire ($)</th><th>Valeur totale</th><th></th></tr></thead>
+        <tbody id="objets-body"></tbody>
+        <tfoot><tr><td colspan="3">Prix total :</td><td id="objets-total">$0</td><td></td></tr></tfoot>
+      </table>
+      <div id="objet-vendu-row" style="margin-top:1rem;display:flex;align-items:center;gap:10px">
+        <label style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;color:var(--text);display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="objet-vendu-check" onchange="toggleVendu()" />
+          Vendu ?
+        </label>
+      </div>
+      <div class="add-row">
+        <input type="text" id="obj-nom" class="wide" placeholder="Nom de l'objet" />
+        <input type="number" id="obj-qte" placeholder="Qté" min="0" value="1" />
+        <input type="number" id="obj-val" placeholder="Valeur $" min="0" value="0" />
+        <button class="btn btn-green" onclick="addObjet()">+ Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PLANTATION ══ -->
+  <div id="page-plantation" class="page">
+    <div class="notice">⚠ Les champs On a, Il faut et Manque sont calculés automatiquement depuis le stock Matériel. Seules les cases Acheter et Fait sont modifiables.</div>
+    <div class="section">
+      <div class="section-title">🌱 Fournitures par plantation</div>
+      <div class="plant-grid" id="plant-grid"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">📊 Résumé plantation</div>
+      <div class="plant-summary">
+        <div class="ps-item"><div class="ps-label">Graines</div><div class="ps-val" id="pl-graines">0</div></div>
+        <div class="ps-item"><div class="ps-label">Prix total</div><div class="ps-val" id="pl-prix">$0</div></div>
+        <div class="ps-item"><div class="ps-label">Nb Plantations</div><div class="ps-val" id="pl-nb">0</div></div>
+      </div>
+      <div class="check-row">
+        <label><input type="checkbox" id="pl-acheter" onchange="savePlantation()" /> Acheter ?</label>
+        <label><input type="checkbox" id="pl-fait" onchange="savePlantation()" /> Fait ?</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PRIX ══ -->
+  <div id="page-prix" class="page">
+    <div class="notice">⚠ Ces prix sont utilisés pour les calculs automatiques. Modifie-les avec précaution.</div>
+    <div class="section">
+      <div class="section-title">💰 Prix des objets</div>
+      <table class="tbl">
+        <thead><tr><th>Objet</th><th>Prix ($)</th></tr></thead>
+        <tbody id="prix-objets-body"></tbody>
+      </table>
+    </div>
+    <div class="section">
+      <div class="section-title">🌱 Prix matériel plantation</div>
+      <table class="tbl">
+        <thead><tr><th>Matérielle</th><th>Quantité</th><th>Prix unitaire ($)</th></tr></thead>
+        <tbody id="prix-materiel-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="bottom-stripe"></div>
+</div>
+
+<!-- SAVE BAR -->
+<div class="save-bar">
+  <span class="save-status" id="save-status">⏳ Chargement...</span>
+  <button class="btn btn-green" onclick="saveData()">💾 Sauvegarder sur GitHub</button>
+</div>
+
+<script>
+// ── CONFIG GITHUB ──
+const GH_TOKEN = process.env.GITHUB_TOKEN;
+const GH_REPO  = 'Kichou-0/M13';
+const GH_FILE  = 'data.json';
+const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+
+// ── STATE ──
+let D    = null;
+let dirty = false;
+let fileSha = null; // SHA requis pour mettre à jour un fichier sur GitHub
+
+const MATERIEL_KEYS   = ['disqueuse','kit','pochon','graine','lumiere','pot','fertilisant','bouteille'];
+const MATERIEL_LABELS = {disqueuse:'Disqueuse',kit:'Kit',pochon:'Pochon',graine:'Graine',
+  lumiere:'Lumière',pot:'Pot',fertilisant:'Fertilisant',bouteille:'Bouteille'};
+const PLANT_KEYS   = ['lumiere','pot','fertilisant','bouteille'];
+const PLANT_LABELS = {lumiere:'Lumière',pot:'Pot',fertilisant:'Fertilisant',bouteille:'Bouteille'};
+// Quantités fixes par plantation (1 plantation = 9 graines)
+const PLANT_QTE_PAR = {lumiere:2, pot:9, fertilisant:9, bouteille:27};
+const GRAINES_PAR_PLANTATION = 9;
+
+// ── INIT ──
+async function init() {
+  setStatus('⏳ Chargement...', '');
+
+  // 1. Essai GitHub API (fonctionne en production sur GitHub Pages)
+  let loaded = false;
+  try {
+    const r = await fetch(GH_API, {
+      headers: { Authorization: 'token ' + GH_TOKEN, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (r.ok) {
+      const meta = await r.json();
+      fileSha = meta.sha;
+      D = JSON.parse(atob(meta.content.replace(/\n/g, '')));
+      loaded = true;
+    }
+  } catch(e) { /* CORS en local — on continue */ }
+
+  // 2. Fallback : data.json local (dev en local)
+  if (!loaded) {
+    try {
+      const r = await fetch('data.json?t=' + Date.now());
+      if (r.ok) {
+        D = await r.json();
+        loaded = true;
+        // Récupère le SHA séparément sans le contenu (plus léger, moins de CORS)
+        fetchShaOnly();
+      }
+    } catch(e) { /* pas de fichier local */ }
+  }
+
+  // 3. Données vides par défaut
+  if (!loaded) D = defaultData();
+
+  migrate();
+  renderAll();
+  setStatus(loaded ? '✓ Données chargées' : '⚠ Données par défaut (local)', loaded ? 'saved' : 'dirty');
+}
+
+// Récupère seulement le SHA pour pouvoir sauvegarder plus tard
+async function fetchShaOnly() {
+  try {
+    const r = await fetch(GH_API, {
+      headers: { Authorization: 'token ' + GH_TOKEN, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (r.ok) {
+      const meta = await r.json();
+      fileSha = meta.sha;
+    }
+  } catch(e) { /* silencieux */ }
+}
+
+function migrate() {
+  D.armes   = D.armes   || [];
+  D.objets  = Array.isArray(D.objets) ? D.objets : [];
+  D.materiel= D.materiel|| {disqueuse:0,kit:0,pochon:0,graine:0,lumiere:0,pot:0,fertilisant:0,bouteille:0};
+  D.prix_objets = D.prix_objets || {};
+  D.plantation  = D.plantation  || {};
+  for(const k of PLANT_KEYS) {
+    if(!D.plantation[k] || typeof D.plantation[k] !== 'object')
+      D.plantation[k] = {on_a:0, faut:0};
+    D.plantation[k].on_a = D.plantation[k].on_a ?? 0;
+    D.plantation[k].faut = D.plantation[k].faut ?? 0;
+  }
+  D.plantation.graines       = D.plantation.graines       ?? 0;
+  D.plantation.nb_plantation = D.plantation.nb_plantation ?? 0;
+  D.plantation.acheter       = D.plantation.acheter       ?? false;
+  D.plantation.fait          = D.plantation.fait          ?? false;
+  D.prix_materiel_plantation = D.prix_materiel_plantation ?? {lumiere:18,pot:9,fertilisant:9,bouteille:9};
+}
+
+function defaultData() {
+  return {
+    argent:0, objet_vendu:false, armes:[], objets:{},
+    materiel:{disqueuse:0,kit:0,pochon:0,graine:0,lumiere:0,pot:0,fertilisant:0,bouteille:0},
+    objets:[],
+    plantation:{
+      lumiere:{on_a:0,faut:0}, pot:{on_a:0,faut:0},
+      fertilisant:{on_a:0,faut:0}, bouteille:{on_a:0,faut:0},
+      graines:0, nb_plantation:0, acheter:false, fait:false
+    },
+    prix_objets:{},
+    prix_materiel_plantation:{lumiere:18,pot:9,fertilisant:9,bouteille:9}
+  };
+}
+
+// ── TABS ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── RENDER ALL ──
+function renderAll() {
+  renderDashboard();
+  renderArmes();
+  renderMateriel();
+  renderObjets();
+  renderPlantation();
+  renderPrix();
+}
+
+// ── DASHBOARD ──
+function renderDashboard() {
+  const armeNb  = D.armes.reduce((s,a) => s+(a.quantite||0), 0);
+  const armeVal = D.armes.reduce((s,a) => s+(a.quantite||0)*(a.valeur||0), 0);
+  const objVal  = D.objets.reduce((s,o) => s+(o.quantite||0)*(o.valeur||0), 0);
+  const totalVal = D.argent + armeVal + objVal;
+  const pl = D.plantation;
+  const plantStatus = pl.fait ? 'Fait' : pl.acheter ? 'Acheter' : 'Non';
+
+  document.getElementById('dash-grid').innerHTML = [
+    {label:'Argent',        cls:'yellow', editable:true},
+    {label:'Argent Valeur', val:'$'+fmt(totalVal), cls:'green'},
+    {label:"Nb d'armes",    val:armeNb,  cls:''},
+    {label:'Plantation',    val:plantStatus, cls:pl.fait?'green':pl.acheter?'yellow':''},
+    {label:'Graines',       val:D.materiel.graine||0, cls:''},
+    {label:'Objet vendu',   cls:'', special:'vendu'},
+  ].map(c => {
+    let inner = '';
+    if(c.editable) {
+      inner = `<input type="number" value="${D.argent}" min="0"
+        onchange="D.argent=+this.value;markDirty();renderDashboard()"
+        style="font-family:'Bebas Neue',sans-serif;font-size:22px;width:150px;letter-spacing:1px;
+        color:var(--yellow);background:transparent;border:none;border-bottom:1px solid var(--border-s);
+        outline:none;padding:2px 0"/>`;
+    } else if(c.special==='vendu') {
+      inner = `<div class="dash-val ${D.objet_vendu?'green':''}" style="cursor:pointer"
+        onclick="D.objet_vendu=!D.objet_vendu;markDirty();renderDashboard()"
+        title="Cliquer pour basculer">${D.objet_vendu?'Oui':'Non'}</div>`;
+    } else {
+      inner = `<div class="dash-val ${c.cls||''}">${c.val}</div>`;
+    }
+    return `<div class="dash-card"><div class="dash-label">${c.label}</div>${inner}</div>`;
+  }).join('');
+}
+
+// ── ARMES ──
+function renderArmes() {
+  const tbody = document.getElementById('armes-body');
+  tbody.innerHTML = D.armes.map((a,i) => `
+    <tr>
+      <td>${esc(a.nom)}</td>
+      <td><input type="number" value="${a.quantite}" min="0"
+        onchange="D.armes[${i}].quantite=+this.value;markDirty();renderArmes();renderDashboard()"/></td>
+      <td><input type="number" value="${a.valeur}" min="0"
+        onchange="D.armes[${i}].valeur=+this.value;markDirty();renderArmes();renderDashboard()"/></td>
+      <td style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--green-mid)">
+        $${fmt((a.quantite||0)*(a.valeur||0))}</td>
+      <td><button class="btn-danger" onclick="D.armes.splice(${i},1);markDirty();renderArmes();renderDashboard()">✕</button></td>
+    </tr>`).join('') || '<tr><td colspan="5" class="empty">Aucune arme</td></tr>';
+
+  document.getElementById('armes-nb').textContent     = D.armes.reduce((s,a)=>s+(a.quantite||0),0);
+  document.getElementById('armes-valeur').textContent = '$'+fmt(D.armes.reduce((s,a)=>s+(a.quantite||0)*(a.valeur||0),0));
+}
+
+function addArme() {
+  const nom = document.getElementById('arme-nom').value.trim();
+  if(!nom) return;
+  D.armes.push({nom, quantite:+(document.getElementById('arme-qte').value)||1, valeur:+(document.getElementById('arme-val').value)||0});
+  document.getElementById('arme-nom').value = '';
+  markDirty(); renderArmes(); renderDashboard();
+}
+
+// ── MATÉRIEL ──
+function renderMateriel() {
+  document.getElementById('materiel-body').innerHTML = MATERIEL_KEYS.map(k => `
+    <tr>
+      <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${MATERIEL_LABELS[k]}</td>
+      <td><input type="number" value="${D.materiel[k]||0}" min="0"
+        onchange="D.materiel['${k}']=+this.value;markDirty();renderDashboard();if('${k}'==='graine')renderPlantation()" /></td>
+    </tr>`).join('');
+}
+
+// ── OBJETS ──
+function renderObjets() {
+  const tbody = document.getElementById('objets-body');
+  tbody.innerHTML = D.objets.map((o,i) => `
+    <tr>
+      <td>${esc(o.nom)}</td>
+      <td><input type="number" value="${o.quantite}" min="0"
+        onchange="D.objets[${i}].quantite=+this.value;markDirty();renderObjets();renderDashboard()"/></td>
+      <td><input type="number" value="${o.valeur}" min="0"
+        onchange="D.objets[${i}].valeur=+this.value;D.prix_objets['${esc(o.nom)}']=+this.value;markDirty();renderObjets();renderPrix();renderDashboard()"/></td>
+      <td style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--green-mid)">
+        $${fmt((o.quantite||0)*(o.valeur||0))}</td>
+      <td><button class="btn-danger" onclick="D.objets.splice(${i},1);markDirty();renderObjets();renderDashboard()">✕</button></td>
+    </tr>`).join('') || '<tr><td colspan="5" class="empty">Aucun objet</td></tr>';
+
+  document.getElementById('objets-total').textContent = '$'+fmt(D.objets.reduce((s,o)=>s+(o.quantite||0)*(o.valeur||0),0));
+  document.getElementById('objet-vendu-check').checked = D.objet_vendu;
+}
+
+function addObjet() {
+  const nom = document.getElementById('obj-nom').value.trim();
+  if(!nom) return;
+  const val = +(document.getElementById('obj-val').value)||0;
+  D.objets.push({nom, quantite:+(document.getElementById('obj-qte').value)||1, valeur:val});
+  D.prix_objets[nom] = val;
+  document.getElementById('obj-nom').value = '';
+  markDirty(); renderObjets(); renderPrix(); renderDashboard();
+}
+
+function toggleVendu() {
+  D.objet_vendu = document.getElementById('objet-vendu-check').checked;
+  markDirty(); renderDashboard();
+}
+
+// ── PLANTATION ──
+function renderPlantation() {
+  const pl = D.plantation;
+  const pm = D.prix_materiel_plantation;
+
+  // Graines & nb plantations depuis matériel
+  const graines  = D.materiel.graine || 0;
+  const nbPlant  = Math.floor(graines / GRAINES_PAR_PLANTATION);
+  D.plantation.graines       = graines;
+  D.plantation.nb_plantation = nbPlant;
+
+  // Stock actuel depuis matériel pour chaque ressource plantation
+  const stock = {lumiere: D.materiel.lumiere||0, pot: D.materiel.pot||0,
+                 fertilisant: D.materiel.fertilisant||0, bouteille: D.materiel.bouteille||0};
+
+  // Calcul auto : faut = nbPlant * qte_fixe, manque = max(0, faut - stock)
+  for(const k of PLANT_KEYS) {
+    D.plantation[k].faut  = nbPlant * PLANT_QTE_PAR[k];
+    D.plantation[k].on_a  = stock[k];
+  }
+
+  document.getElementById('plant-grid').innerHTML = PLANT_KEYS.map(k => {
+    const faut   = D.plantation[k].faut;
+    const on_a   = stock[k];
+    const manque = Math.max(0, faut - on_a);
+    const ok     = manque === 0;
+    return `<div class="plant-card" style="border-left:3px solid ${ok ? 'var(--green)' : 'var(--rouge)'}">
+      <div class="pl-name">${PLANT_LABELS[k]}</div>
+      <div class="pl-row"><label>On a</label>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text)">${on_a}</span></div>
+      <div class="pl-row"><label>Il faut</label>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--yellow)">${faut}</span></div>
+      <div class="pl-row"><label>Manque</label>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${manque > 0 ? 'var(--rouge)' : 'var(--green-mid)'}">${manque}</span></div>
+      <div class="pl-row"><label>Prix unit.</label>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--yellow)">$${pm[k]||0}</span></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('pl-graines').textContent = graines;
+  document.getElementById('pl-nb').textContent      = nbPlant;
+  updatePlantCalc();
+
+  document.getElementById('pl-acheter').checked = pl.acheter ?? false;
+  document.getElementById('pl-fait').checked    = pl.fait    ?? false;
+}
+
+function updatePlantCalc() {
+  const pl = D.plantation;
+  const pm = D.prix_materiel_plantation;
+  const prixTotal = PLANT_KEYS.reduce((s,k) => {
+    const manque = Math.max(0, (pl[k].faut||0) - (pl[k].on_a||0));
+    return s + manque * (pm[k]||0);
+  }, 0);
+  document.getElementById('pl-prix').textContent = '$'+fmt(prixTotal);
+}
+
+function savePlantation() {
+  D.plantation.acheter = document.getElementById('pl-acheter').checked;
+  D.plantation.fait    = document.getElementById('pl-fait').checked;
+  markDirty(); renderDashboard();
+}
+
+// ── PRIX ──
+function renderPrix() {
+  document.getElementById('prix-objets-body').innerHTML = Object.entries(D.prix_objets).map(([nom,prix]) => `
+    <tr>
+      <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${esc(nom)}</td>
+      <td><input type="number" value="${prix||0}" min="0"
+        onchange="D.prix_objets[${JSON.stringify(nom)}]=+this.value;
+          const oi=D.objets.findIndex(o=>o.nom===${JSON.stringify(nom)});
+          if(oi>=0)D.objets[oi].valeur=+this.value;
+          markDirty();renderObjets();renderDashboard()"/></td>
+    </tr>`).join('') || '<tr><td colspan="2" class="empty">Aucun prix défini</td></tr>';
+
+  document.getElementById('prix-materiel-body').innerHTML = PLANT_KEYS.map(k => `
+    <tr>
+      <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${PLANT_LABELS[k]}</td>
+      <td>${D.materiel[k]||0}</td>
+      <td><input type="number" value="${D.prix_materiel_plantation[k]||0}" min="0"
+        onchange="D.prix_materiel_plantation['${k}']=+this.value;markDirty();renderPlantation()"/></td>
+    </tr>`).join('');
+}
+
+// ── DIRTY ──
+function markDirty() {
+  dirty = true;
+  setStatus('● Modifications non sauvegardées', 'dirty');
+}
+
+function setStatus(msg, cls) {
+  const el = document.getElementById('save-status');
+  el.textContent = msg;
+  el.className = 'save-status' + (cls ? ' '+cls : '');
+}
+
+// ── SAVE → GITHUB ──
+async function saveData() {
+  setStatus('⏳ Sauvegarde...', '');
+  const json    = JSON.stringify(D, null, 2);
+  const content = btoa(unescape(encodeURIComponent(json)));
+  const body    = { message: 'Update data.json', content, sha: fileSha };
+
+  try {
+    const r = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {
+        Authorization: 'token ' + GH_TOKEN,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if(!r.ok) throw new Error(await r.text());
+    const data = await r.json();
+    fileSha = data.content.sha;
+    dirty   = false;
+    setStatus('✓ Sauvegardé sur GitHub', 'saved');
+  } catch(e) {
+    console.error(e);
+    setStatus('✗ Erreur de sauvegarde — voir console', 'dirty');
+  }
+}
+
+// ── UTILS ──
+function fmt(n) { return Number(n||0).toLocaleString('fr-FR'); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;'); }
+
+init();
+</script>
+</body>
+</html>

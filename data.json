@@ -1,0 +1,53 @@
+{
+  "argent": 36000,
+  "armes": [
+    { "nom": "Batte", "quantite": 2, "valeur": 10000 }
+  ],
+  "materiel": {
+    "disqueuse": 0,
+    "kit": 0,
+    "pochon": 0,
+    "graine": 0,
+    "lumiere": 0,
+    "pot": 0,
+    "fertilisant": 0,
+    "bouteille": 0
+  },
+  "objets": [
+    { "nom": "Tableau",       "quantite": 16, "valeur": 225 },
+    { "nom": "Bouteille",     "quantite": 2,  "valeur": 110 },
+    { "nom": "Statue falcon", "quantite": 4,  "valeur": 0   },
+    { "nom": "Culotte",       "quantite": 81, "valeur": 0   },
+    { "nom": "Clé ancienne",  "quantite": 7,  "valeur": 0   },
+    { "nom": "Livre d'enfant","quantite": 2,  "valeur": 0   },
+    { "nom": "Chicha",        "quantite": 2,  "valeur": 0   },
+    { "nom": "Fiole mystère", "quantite": 0,  "valeur": 0   }
+  ],
+  "plantation": {
+    "lumiere":     { "on_a": 0, "faut": 0 },
+    "pot":         { "on_a": 0, "faut": 0 },
+    "fertilisant": { "on_a": 0, "faut": 0 },
+    "bouteille":   { "on_a": 0, "faut": 0 },
+    "graines": 0,
+    "nb_plantation": 0,
+    "acheter": false,
+    "fait": false
+  },
+  "prix_objets": {
+    "Tableau": 225,
+    "Bouteille": 110,
+    "Statue falcon": 0,
+    "Culotte": 0,
+    "Clé ancienne": 0,
+    "Livre d'enfant": 0,
+    "Chicha": 0,
+    "Fiole mystère": 0
+  },
+  "prix_materiel_plantation": {
+    "lumiere": 18,
+    "pot": 9,
+    "fertilisant": 9,
+    "bouteille": 9
+  },
+  "objet_vendu": false
+}

@@ -1,5 +1,5 @@
 {
-  "argent": 36000,
+  "argent": 4000,
   "armes": [
     {
       "nom": "Batte",
@@ -39,7 +39,7 @@
       "valeur": 0
     },
     {
-      "nom": "ClÃ© ancienne",
+      "nom": "ClÃÂ© ancienne",
       "quantite": 7,
       "valeur": 0
     },
@@ -54,7 +54,7 @@
       "valeur": 0
     },
     {
-      "nom": "Fiole mystÃ¨re",
+      "nom": "Fiole mystÃÂ¨re",
       "quantite": 0,
       "valeur": 0
     }
@@ -86,10 +86,10 @@
     "Bouteille": 110,
     "Statue falcon": 0,
     "Culotte": 0,
-    "ClÃ© ancienne": 0,
+    "ClÃÂ© ancienne": 0,
     "Livre d'enfant": 0,
     "Chicha": 0,
-    "Fiole mystÃ¨re": 0
+    "Fiole mystÃÂ¨re": 0
   },
   "prix_materiel_plantation": {
     "lumiere": 18,
